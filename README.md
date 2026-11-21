@@ -21,7 +21,7 @@
 
 **Обновление:** `/plugin marketplace update finance-soul` и перезапуск. Текущая версия — **0.1.1**, изменения — в [CHANGELOG.md](CHANGELOG.md). Если при старте видите `SessionStart:startup hook failed: Permission denied` — у вас 0.1.0, обновитесь.
 
-**Где проверено:** macOS и Linux (автотесты на Python 3.9 и 3.12). Windows пока не проверялся.
+**Нашли проблему?** Напишите в [Issues](https://github.com/aibatjardem/finance-soul/issues) — или склонируйте репозиторий и доработайте под себя (раздел «Доработать под себя» ниже, лицензия MIT).
 
 ## Быстрый старт
 
@@ -73,13 +73,24 @@ python3 plugins/finance-soul/kernel/run.py build examples/edtech/.finsoul/models
 - КПН начисляется и платится в одном месяце, убытки переносятся вперёд; ставка задаётся во входах с источником, справочника налогов РК пока нет.
 - Одна валюта модели, модель помесячная, без запасов.
 - Нет DCF с терминальной стоимостью, план-факта и аудита чужих Excel-файлов.
-- Windows не проверялся; skills вызывают ядро через `python3`.
 
 ## Дальше (v0.2)
 
 DCF и оценка компании, план-факт с разложением отклонений, справочник налогов РК со сверкой по Налоговому кодексу 2026, аудит произвольных xlsx, 13-недельный прогноз денег, валюты, новые профили (SaaS, e-commerce, услуги, производство) и специалисты.
 
-## Разработка
+## Доработать под себя
+
+Finance Soul открыт: склонируйте и меняйте что угодно — свои профили бизнеса, показатели, правила, отчёт, расчёты.
+
+```bash
+git clone https://github.com/aibatjardem/finance-soul.git
+cd finance-soul
+claude --plugin-dir plugins/finance-soul   # Claude Code с вашей локальной версией плагина
+```
+
+Своя версия для команды: сделайте fork на GitHub и ставьте плагин из него — `/plugin marketplace add <ваш-логин>/finance-soul`. Как устроен репозиторий и что где править — в [CLAUDE.md](CLAUDE.md). Улучшения, полезные всем, присылайте в Pull Request.
+
+Проверка после правок:
 
 ```bash
 python3 -m pip install --user -r requirements-dev.txt

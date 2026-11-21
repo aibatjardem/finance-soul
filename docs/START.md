@@ -62,8 +62,9 @@ claude
 ## Если что-то не так
 
 - **Красная ошибка `SessionStart:startup hook failed: Permission denied`** — у вас 0.1.0. Обновитесь: `/plugin marketplace update finance-soul` и перезапустите Claude Code (не помогло — `/plugin uninstall finance-soul@finance-soul`, затем снова `install`).
-- **Windows** пока не проверялся. Если `python3` не найден — скажите Claude «запускай ядро через python».
+- **Команда `python3` не найдена** (часто на Windows) — скажите Claude «запускай ядро через python».
 - Остальное — раздел «Если что-то не так» в [QUICKSTART.md](QUICKSTART.md#6-если-что-то-не-так).
+- Не получилось — напишите в [Issues](https://github.com/aibatjardem/finance-soul/issues). Или склонируйте репозиторий и доработайте под себя: [README → «Доработать под себя»](../README.md#доработать-под-себя).
 
 ## Важно
 

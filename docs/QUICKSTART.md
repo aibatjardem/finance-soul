@@ -111,7 +111,7 @@ moy-biznes/
 | «Нужен openpyxl» | `python3 -m pip install --user openpyxl` |
 | Ошибка во входах (`revenue_streams[0].price: ...`) | Claude исправит сам; если нет — скажите «исправь ошибки во входах» |
 | «модель не прошла проверки» | не используйте цифры, попросите «найди, почему не сходится баланс» |
-| Windows: ошибка хука при старте или команда `python3` не найдена | Windows пока не проверялся. Python там часто вызывается как `python` — скажите Claude «запускай ядро через python». Запустите `/finance-soul:setup` вручную и напишите в [Issues](https://github.com/aibatjardem/finance-soul/issues), что увидели |
+| Команда `python3` не найдена (часто на Windows) | Python там часто вызывается как `python` — скажите Claude «запускай ядро через python» |
 
 **Какая у меня версия:** `/plugin` → установленные плагины → finance-soul. Текущая — **0.1.1** (что изменилось — [CHANGELOG](../CHANGELOG.md)).
 
@@ -128,13 +128,19 @@ moy-biznes/
 
 **Удалить:** `/plugin uninstall finance-soul@finance-soul`.
 
-## Где проверено
+## Нашли проблему или хотите доработать под себя
 
-| Система | Статус |
-|---|---|
-| macOS | проверено: установка, хук, ядро, Excel |
-| Linux (Ubuntu) | проверено автотестами на Python 3.9 и 3.12 |
-| Windows | **не проверено** — может работать через Git Bash; сообщите о результате в Issues |
+- **Сообщить о проблеме:** <https://github.com/aibatjardem/finance-soul/issues> — что делали, что увидели (текст ошибки или скриншот), какая система.
+- **Доработать самому:** склонируйте репозиторий и запустите Claude Code с локальной версией плагина:
+
+  ```bash
+  git clone https://github.com/aibatjardem/finance-soul.git
+  cd finance-soul
+  claude --plugin-dir plugins/finance-soul
+  ```
+
+  Меняйте профили, показатели, тексты, расчёты — что нужно вашему бизнесу. Что где лежит — в [CLAUDE.md](../CLAUDE.md). Для своей команды сделайте fork и ставьте из него: `/plugin marketplace add <ваш-логин>/finance-soul`.
+- Полезное для всех — присылайте Pull Request.
 
 ## 7. Важно
 
