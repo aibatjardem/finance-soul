@@ -1,6 +1,6 @@
 {
     "name": "finance-soul",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "description": "Душа финансиста для Claude Code: финмодели (три формы), юнит-экономика, cash/runway, сценарии, бизнес-план. Числа считает протестированное Python-ядро, Excel — с живыми формулами.",
     "author": {
         "name": "aibatjardem"

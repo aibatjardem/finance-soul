@@ -1,6 +1,6 @@
 {
   "model": "Онлайн-школа программирования «Код» (пример)",
-  "kernel_version": "0.1.0",
+  "kernel_version": "0.1.1",
   "scenario": "base",
   "errors": [],
   "warnings": [],
