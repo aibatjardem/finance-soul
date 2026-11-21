@@ -40,3 +40,9 @@ def test_annuity_payment():
 
 def test_monthly_rate_nominal():
     assert monthly_rate(0.24) == pytest.approx(0.02)
+
+
+def test_irr_long_series_does_not_crash():
+    flows = [-1000] + [10] * 119
+    assert irr(flows) is None or irr(flows) > -1
+    assert irr([-100] + [5] * 119) == pytest.approx(0.0499, abs=1e-3)

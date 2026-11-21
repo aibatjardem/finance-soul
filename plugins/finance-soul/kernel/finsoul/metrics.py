@@ -32,7 +32,9 @@ def unit_economics(mi: ModelInputs, values: Dict[str, List[float]]) -> dict:
     weighted_contribution = _div(total_gp, total_units) if total_units else contribution
 
     breakeven = None
-    fixed_first = values["fixed_costs"][0]
+    # Fixed costs once every line has started (costs with start_month > 1 count too).
+    full_base_t = min(max([f.start_month for f in mi.fixed_costs] or [1]) - 1, mi.months - 1)
+    fixed_first = values["fixed_costs"][full_base_t]
     if weighted_contribution is not None and weighted_contribution > 0:
         breakeven = fixed_first / weighted_contribution
     else:

@@ -1,6 +1,7 @@
 """finance-soul kernel CLI.
 
-Exit codes: 0 ok · 1 integrity errors (files are still written) · 2 bad inputs.
+Exit codes: 0 ok · 1 integrity errors (files are still written) · 2 bad inputs ·
+3 internal kernel failure (nothing trustworthy written; out/ may hold an older run).
 """
 import argparse
 import json
@@ -94,4 +95,9 @@ def main(argv: Optional[List[str]] = None) -> int:
     if not getattr(args, "fn", None):
         p.print_help()
         return 2
-    return args.fn(args)
+    try:
+        return args.fn(args)
+    except Exception as e:  # never a traceback: agents read exit codes, people read messages
+        print("finance-soul: внутренняя ошибка ядра (%s: %s). Результат не записан; "
+              "файлы в папке out/ могут быть от прошлого запуска." % (type(e).__name__, e), file=sys.stderr)
+        return 3

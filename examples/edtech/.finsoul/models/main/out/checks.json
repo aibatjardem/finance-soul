@@ -14,7 +14,7 @@
         "peak_funding_need": 36199208.924781576,
         "breakeven_month": 14,
         "npv_fcf": 32810659.195093833,
-        "irr_fcf": 0.7431241394803201,
+        "irr_fcf": 0.7431241394732337,
         "payback_month": 26.51033760440912,
         "discount_rate_annual": 0.25
       },
@@ -44,7 +44,7 @@
         "peak_funding_need": 26253577.400654778,
         "breakeven_month": 9,
         "npv_fcf": 72486968.70669465,
-        "irr_fcf": 1.4922736058459223,
+        "irr_fcf": 1.492273605844285,
         "payback_month": 20.92882461006115,
         "discount_rate_annual": 0.25
       },
@@ -74,7 +74,7 @@
         "peak_funding_need": 81169553.24211697,
         "breakeven_month": 24,
         "npv_fcf": -50265043.1557223,
-        "irr_fcf": -0.3251374474194464,
+        "irr_fcf": -0.32513744742131656,
         "payback_month": null,
         "discount_rate_annual": 0.25
       },

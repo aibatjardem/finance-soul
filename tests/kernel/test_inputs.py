@@ -109,3 +109,9 @@ def test_invalid_json_file(tmp_path):
     with pytest.raises(InputError) as exc:
         load_inputs(str(p))
     assert "JSON" in exc.value.message
+
+
+def test_growth_monthly_capped():
+    data = raw()
+    data["revenue_streams"][0]["growth_monthly"] = 1000
+    assert errors_of(data)[0].path == "revenue_streams[0].growth_monthly"

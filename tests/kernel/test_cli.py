@@ -74,3 +74,39 @@ def test_markdown_tables_well_formed(tmp_path):
     report = (tmp_path / "report.md").read_text(encoding="utf-8")
     assert "||" not in report
     assert "|---|---:|---:|---:|" in report  # three scenario columns, three P&L years
+
+
+def _write(tmp_path, data, name="in.json"):
+    p = tmp_path / name
+    p.write_text(json.dumps(data, ensure_ascii=False), encoding="utf-8")
+    return p
+
+
+def test_long_horizon_builds(tmp_path):
+    data = json.loads(FIXTURE.read_text(encoding="utf-8"))
+    data["months"] = 120
+    r = cli("build", str(_write(tmp_path, data)), "--out", str(tmp_path / "o"), "--no-xlsx")
+    assert r.returncode == 0, r.stderr
+
+
+def test_non_utf8_and_directory_inputs_exit_2(tmp_path):
+    bad = tmp_path / "cp1251.json"
+    bad.write_bytes('{"name": "Школа"}'.encode("cp1251"))
+    for target in (bad, tmp_path):
+        r = cli("build", str(target), "--out", str(tmp_path / "o"))
+        assert r.returncode == 2, (target, r.stderr)
+        assert "Traceback" not in r.stderr
+
+
+def test_unexpected_failure_exit_3(monkeypatch, capsys, tmp_path):
+    from finsoul import cli as cli_mod
+
+    def boom(mi):
+        raise RuntimeError("неожиданно")
+
+    monkeypatch.setattr(cli_mod, "run_scenarios", boom)
+    code = cli_mod.main(["build", str(FIXTURE), "--out", str(tmp_path / "o"), "--no-xlsx"])
+    assert code == 3
+    err = capsys.readouterr().err
+    assert "неожиданно" in err and "Traceback" not in err
+    assert not (tmp_path / "o" / "report.md").exists()

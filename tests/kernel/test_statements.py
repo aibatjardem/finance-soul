@@ -125,3 +125,13 @@ def test_run_checks_flags_imbalance(edtech):
     broken["balance_diff"][5] = 10
     errors = [c for c in run_checks(ctx, broken) if c["level"] == "error"]
     assert errors and errors[0]["period"] == 5
+
+
+def test_balance_tolerance_scales_with_size(edtech):
+    ctx, values = edtech
+    big = dict(values)
+    big["balance_diff"] = list(values["balance_diff"])
+    big["total_assets"] = list(values["total_assets"])
+    big["balance_diff"][5] = 1.0
+    big["total_assets"][5] = 1e12
+    assert [c for c in run_checks(ctx, big) if c["id"] == "balance_mismatch"] == []

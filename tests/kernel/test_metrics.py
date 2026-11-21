@@ -101,3 +101,11 @@ def test_zero_revenue_does_not_crash():
     _, _, ue, cm = compute(data)
     assert ue["contribution_margin_weighted"] is None
     assert cm["breakeven_month"] is None
+
+
+def test_breakeven_counts_costs_that_start_later():
+    data = raw()
+    for f in data["fixed_costs"]:
+        f["start_month"] = 2
+    _, _, ue, _ = compute(data)
+    assert ue["breakeven_units_per_month"] == pytest.approx(6_900_000 / 22000)

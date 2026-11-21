@@ -12,12 +12,16 @@ def _has_sign_change(flows: Sequence[float]) -> bool:
 
 
 def irr(flows: Sequence[float]) -> Optional[float]:
-    """Bisection on [-0.9999, 10]. None if flows never change sign or no root
+    """Bisection on [-0.99, 10]. None if flows never change sign or no root
     in that range."""
     if len(flows) < 2 or not _has_sign_change(flows):
         return None
-    lo, hi = -0.9999, 10.0
-    f_lo, f_hi = npv(lo, flows), npv(hi, flows)
+    # -0.99, not -0.9999: 0.0001**i underflows to 0.0 after ~80 periods.
+    lo, hi = -0.99, 10.0
+    try:
+        f_lo, f_hi = npv(lo, flows), npv(hi, flows)
+    except (ZeroDivisionError, OverflowError):
+        return None
     if f_lo * f_hi > 0:
         return None
     for _ in range(300):

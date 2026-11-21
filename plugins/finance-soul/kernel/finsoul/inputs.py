@@ -255,7 +255,7 @@ def parse_inputs(raw: Any) -> ModelInputs:
             price=r.num(s, "price", p, minimum=0),
             variable_cost=r.num(s, "variable_cost", p, default=0.0, minimum=0),
             ramp=ramp,
-            growth_monthly=r.num(s, "growth_monthly", p, default=0.0, minimum=-1),
+            growth_monthly=r.num(s, "growth_monthly", p, default=0.0, minimum=-1, maximum=1),
             capacity=r.num(s, "capacity", p, default=None, minimum=0, nullable=True),
         ))
 
@@ -352,6 +352,12 @@ def load_inputs(path: str) -> ModelInputs:
             raw = json.load(fh)
     except FileNotFoundError:
         raise InputError(path, "файл не найден")
+    except IsADirectoryError:
+        raise InputError(path, "это папка, а нужен файл inputs.json")
+    except UnicodeDecodeError:
+        raise InputError(path, "файл не в кодировке UTF-8 — пересохрани его в UTF-8")
+    except OSError as e:
+        raise InputError(path, "не удалось прочитать файл: %s" % e.strerror)
     except json.JSONDecodeError as e:
         raise InputError(path, "некорректный JSON: строка %d, колонка %d: %s" % (e.lineno, e.colno, e.msg))
     return parse_inputs(raw)
