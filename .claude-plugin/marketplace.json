@@ -1,0 +1,21 @@
+{
+    "name": "finance-soul",
+    "owner": {
+        "name": "aibatjardem"
+    },
+    "metadata": {
+        "description": "Finance Soul — душа финансиста для Claude Code"
+    },
+    "plugins": [
+        {
+            "name": "finance-soul",
+            "source": "./plugins/finance-soul",
+            "description": "Душа финансиста для Claude Code: финмодели (три формы), юнит-экономика, cash/runway, сценарии, бизнес-план. Числа считает протестированное Python-ядро, Excel — с живыми формулами.",
+            "author": {
+                "name": "aibatjardem"
+            },
+            "homepage": "https://github.com/aibatjardem/finance-soul",
+            "license": "MIT"
+        }
+    ]
+}
