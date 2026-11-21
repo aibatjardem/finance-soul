@@ -105,15 +105,36 @@ moy-biznes/
 
 | Проблема | Что сделать |
 |---|---|
+| Красная строка при старте `SessionStart:startup hook failed: Permission denied` | у вас версия 0.1.0 — обновитесь (ниже, «Обновить плагин»); в 0.1.1 исправлено |
 | Нет команд `/finance-soul:...` | перезапустите Claude Code; проверьте `/plugin` → установленные плагины |
 | «нужен Python 3.9 или новее» | установите Python (раздел 1) |
 | «Нужен openpyxl» | `python3 -m pip install --user openpyxl` |
 | Ошибка во входах (`revenue_streams[0].price: ...`) | Claude исправит сам; если нет — скажите «исправь ошибки во входах» |
 | «модель не прошла проверки» | не используйте цифры, попросите «найди, почему не сходится баланс» |
-| Windows: не срабатывает подсказка при старте | Finance Soul на Windows пока не проверялся — запустите `/finance-soul:setup` вручную и сообщите в [Issues](https://github.com/aibatjardem/finance-soul/issues) |
+| Windows: ошибка хука при старте или команда `python3` не найдена | Windows пока не проверялся. Python там часто вызывается как `python` — скажите Claude «запускай ядро через python». Запустите `/finance-soul:setup` вручную и напишите в [Issues](https://github.com/aibatjardem/finance-soul/issues), что увидели |
 
-**Обновить плагин:** `/plugin marketplace update finance-soul`, затем перезапуск.
+**Какая у меня версия:** `/plugin` → установленные плагины → finance-soul. Текущая — **0.1.1** (что изменилось — [CHANGELOG](../CHANGELOG.md)).
+
+**Обновить плагин:**
+```
+/plugin marketplace update finance-soul
+```
+затем выйдите из Claude Code и запустите снова. Если старая ошибка осталась — переустановите:
+```
+/plugin uninstall finance-soul@finance-soul
+/plugin install finance-soul@finance-soul
+```
+Папка `.finsoul/` в ваших проектах при обновлении и удалении плагина не трогается.
+
 **Удалить:** `/plugin uninstall finance-soul@finance-soul`.
+
+## Где проверено
+
+| Система | Статус |
+|---|---|
+| macOS | проверено: установка, хук, ядро, Excel |
+| Linux (Ubuntu) | проверено автотестами на Python 3.9 и 3.12 |
+| Windows | **не проверено** — может работать через Git Bash; сообщите о результате в Issues |
 
 ## 7. Важно
 

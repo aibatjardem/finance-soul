@@ -17,7 +17,11 @@
 /plugin install finance-soul@finance-soul
 ```
 
-Нужен Python 3.9+, для Excel — `openpyxl` (`python3 -m pip install --user openpyxl`).
+Нужен Python 3.9+, для Excel — `openpyxl` (`python3 -m pip install --user openpyxl`). Перезапустите Claude Code после установки.
+
+**Обновление:** `/plugin marketplace update finance-soul` и перезапуск. Текущая версия — **0.1.1**, изменения — в [CHANGELOG.md](CHANGELOG.md). Если при старте видите `SessionStart:startup hook failed: Permission denied` — у вас 0.1.0, обновитесь.
+
+**Где проверено:** macOS и Linux (автотесты на Python 3.9 и 3.12). Windows пока не проверялся.
 
 ## Быстрый старт
 
@@ -69,6 +73,7 @@ python3 plugins/finance-soul/kernel/run.py build examples/edtech/.finsoul/models
 - КПН начисляется и платится в одном месяце, убытки переносятся вперёд; ставка задаётся во входах с источником, справочника налогов РК пока нет.
 - Одна валюта модели, модель помесячная, без запасов.
 - Нет DCF с терминальной стоимостью, план-факта и аудита чужих Excel-файлов.
+- Windows не проверялся; skills вызывают ядро через `python3`.
 
 ## Дальше (v0.2)
 
