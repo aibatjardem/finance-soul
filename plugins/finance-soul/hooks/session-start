@@ -1,0 +1,132 @@
+#!/usr/bin/env bash
+# Finance Soul — SessionStart hook. Adapted from aibatjardem/agentsoul (MIT).
+#
+# Injects the compact soul plus the state of .finsoul/ into the main agent's context.
+# Bash builtins only: at session start Claude Code may run hooks with a broken PATH.
+# Never fails the session: always exits 0 and prints valid JSON.
+# Budget: additionalContext is capped at 10 000 characters by Claude Code.
+
+set -u
+BUDGET=9000
+RESERVE=400
+
+case "$0" in
+  */*|*\\*) HOOK_DIR="$(cd "${0%[/\\]*}" && pwd)" ;;
+  *) HOOK_DIR="$(pwd)" ;;
+esac
+
+# Count characters, not bytes: Cyrillic is two bytes per letter in UTF-8.
+probe="ж"
+for loc in C.UTF-8 en_US.UTF-8 C.utf8; do
+  [ "${#probe}" -eq 1 ] && break
+  export LC_ALL="$loc" 2>/dev/null
+  probe="ж"
+done
+
+nl=$'\n'
+core="Finance Soul: файл души не найден в плагине."
+[ -r "$HOOK_DIR/soul-core.md" ] && core="$(<"$HOOK_DIR/soul-core.md")"
+ctx="$core"
+KERNEL_DIR="$(cd "$HOOK_DIR/../kernel" 2>/dev/null && pwd)"
+[ -n "$KERNEL_DIR" ] && ctx+="$nl${nl}Ядро на этой машине: python3 \"$KERNEL_DIR/run.py\" build <inputs.json> --out <папка>"
+
+project="${CLAUDE_PROJECT_DIR:-$PWD}"
+fs="$project/.finsoul"
+
+# A cloned repo is untrusted: a symlink could point at secrets. Never follow links.
+is_plain_file() { [ -f "$1" ] && [ ! -L "$1" ]; }
+
+# Sets BODY to the whole file and returns 0 if it fits in BUDGET; returns 1 (BODY partial,
+# never to be shown) if the file is larger. bash 3.2 on macOS counts bytes in `read -n`, so a
+# capped read can end inside a multi-byte letter: only complete files are ever inlined.
+# read exits non-zero exactly when it reached end of file before the limit.
+BODY=""
+read_small() {
+  BODY=""
+  if IFS= read -r -d '' -n "$BUDGET" BODY < "$1"; then
+    return 1
+  fi
+  return 0
+}
+
+if [ ! -d "$fs" ] || [ -L "$fs" ]; then
+  ctx+="$nl$nl## Состояние проекта$nl${nl}Finance Soul не настроен в этой папке (нет .finsoul/). Перед финансовой задачей предложи /finance-soul:setup."
+else
+  status="## Состояние проекта$nl${nl}Файлы проекта (прочитай перед нетривиальной задачей):"
+  for f in company.md metrics.md assumptions.md; do
+    if is_plain_file "$fs/$f"; then
+      read_small "$fs/$f" || true
+      case "$BODY" in
+        *TBD*) status+="$nl- .finsoul/$f — есть незаполненные поля TBD, предложи /finance-soul:setup" ;;
+        *) status+="$nl- .finsoul/$f" ;;
+      esac
+    else
+      status+="$nl- .finsoul/$f — нет файла, предложи /finance-soul:setup"
+    fi
+  done
+
+  models=""
+  if [ -d "$fs/models" ] && [ ! -L "$fs/models" ]; then
+    for m in "$fs"/models/*/inputs.json; do
+      is_plain_file "$m" || continue
+      name="${m%/inputs.json}"
+      name="${name##*/}"
+      out="нет расчёта"
+      is_plain_file "${m%inputs.json}out/checks.json" && out="есть out/checks.json"
+      models+="$nl- $name ($out)"
+    done
+  fi
+  if [ -n "$models" ]; then
+    status+="$nl${nl}Модели в .finsoul/models/:$models"
+  else
+    status+="$nl${nl}Моделей пока нет."
+  fi
+  ctx+="$nl$nl$status"
+
+  first_local=1
+  more=0
+  if [ -d "$fs/local" ] && [ ! -L "$fs/local" ]; then
+    for f in "$fs"/local/*.md; do
+      is_plain_file "$f" || continue
+      rel=".finsoul/local/${f##*/}"
+      if [ "$first_local" -eq 1 ]; then
+        ctx+="$nl$nl## Правила проекта (сильнее всего остального)"
+        first_local=0
+      fi
+      complete=1
+      if [ -r "$f" ]; then read_small "$f" || complete=0; else BODY=""; fi
+      block="$nl$nl### $rel$nl$BODY"
+      pointer="$nl- $rel — слишком большой, прочитай его через Read перед работой"
+      if [ "$complete" -eq 1 ] && [ $(( ${#ctx} + ${#block} )) -le $(( BUDGET - RESERVE )) ]; then
+        ctx+="$block"
+      elif [ $(( ${#ctx} + ${#pointer} )) -le $(( BUDGET - RESERVE )) ]; then
+        ctx+="$pointer"
+      else
+        more=1
+        break
+      fi
+    done
+  fi
+  [ "$more" -eq 1 ] && ctx+="$nl${nl}В .finsoul/local/ есть ещё файлы — прочитай все *.md там через Read перед работой."
+fi
+
+[ "${#ctx}" -gt "$BUDGET" ] && ctx="${ctx:0:$BUDGET}"
+
+escape_for_json() {
+  local s="$1"
+  s="${s//\\/\\\\}"
+  s="${s//\"/\\\"}"
+  s="${s//$'\r'/}"
+  s="${s//$'\t'/\\t}"
+  s="${s//$'\n'/\\n}"
+  local c
+  for c in $'\001' $'\002' $'\003' $'\004' $'\005' $'\006' $'\007' $'\010' $'\013' $'\014' \
+           $'\016' $'\017' $'\020' $'\021' $'\022' $'\023' $'\024' $'\025' $'\026' $'\027' \
+           $'\030' $'\031' $'\032' $'\033' $'\034' $'\035' $'\036' $'\037'; do
+    s="${s//$c/}"
+  done
+  printf '%s' "$s"
+}
+
+printf '{"hookSpecificOutput":{"hookEventName":"SessionStart","additionalContext":"%s"}}\n' "$(escape_for_json "$ctx")"
+exit 0

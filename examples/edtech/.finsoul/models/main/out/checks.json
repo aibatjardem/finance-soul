@@ -1,0 +1,121 @@
+{
+  "model": "Онлайн-школа программирования «Код» (пример)",
+  "kernel_version": "0.1.0",
+  "scenario": "base",
+  "errors": [],
+  "warnings": [],
+  "scenario_results": {
+    "base": {
+      "cash_metrics": {
+        "min_cash": 39569516.127929166,
+        "min_cash_month": 17,
+        "first_negative_cash_month": null,
+        "runway_months": null,
+        "peak_funding_need": 36199208.924781576,
+        "breakeven_month": 14,
+        "npv_fcf": 32810659.195093833,
+        "irr_fcf": 0.7431241394732337,
+        "payback_month": 26.51033760440912,
+        "discount_rate_annual": 0.25
+      },
+      "unit_economics": {
+        "unit": "ученик-месяц",
+        "price": 25000.0,
+        "contribution_per_unit": 22000.0,
+        "contribution_margin": 0.88,
+        "contribution_margin_weighted": 0.8799999999999998,
+        "breakeven_units_per_month": 313.63636363636357,
+        "breakeven_above_capacity": false,
+        "capacity": 2000.0,
+        "cac": 18000.0,
+        "churn_monthly": 0.06,
+        "ltv": 366666.6666666667,
+        "ltv_cac": 20.37037037037037,
+        "cac_payback_months": 0.8181818181818182,
+        "warnings": []
+      }
+    },
+    "upside": {
+      "cash_metrics": {
+        "min_cash": 47522000.0,
+        "min_cash_month": 2,
+        "first_negative_cash_month": null,
+        "runway_months": null,
+        "peak_funding_need": 26253577.400654778,
+        "breakeven_month": 9,
+        "npv_fcf": 72486968.70669465,
+        "irr_fcf": 1.492273605844285,
+        "payback_month": 20.92882461006115,
+        "discount_rate_annual": 0.25
+      },
+      "unit_economics": {
+        "unit": "ученик-месяц",
+        "price": 25000.0,
+        "contribution_per_unit": 22000.0,
+        "contribution_margin": 0.88,
+        "contribution_margin_weighted": 0.8799999999999999,
+        "breakeven_units_per_month": 313.6363636363637,
+        "breakeven_above_capacity": false,
+        "capacity": 2000.0,
+        "cac": 18000.0,
+        "churn_monthly": 0.06,
+        "ltv": 366666.6666666667,
+        "ltv_cac": 20.37037037037037,
+        "cac_payback_months": 0.8181818181818182,
+        "warnings": []
+      }
+    },
+    "downside": {
+      "cash_metrics": {
+        "min_cash": -18828188.65609636,
+        "min_cash_month": 27,
+        "first_negative_cash_month": 17,
+        "runway_months": 16,
+        "peak_funding_need": 81169553.24211697,
+        "breakeven_month": 24,
+        "npv_fcf": -50265043.1557223,
+        "irr_fcf": -0.32513744742131656,
+        "payback_month": null,
+        "discount_rate_annual": 0.25
+      },
+      "unit_economics": {
+        "unit": "ученик-месяц",
+        "price": 22500.0,
+        "contribution_per_unit": 19050.0,
+        "contribution_margin": 0.8466666666666667,
+        "contribution_margin_weighted": 0.8466666666666667,
+        "breakeven_units_per_month": 398.4251968503938,
+        "breakeven_above_capacity": false,
+        "capacity": 2000.0,
+        "cac": 18000.0,
+        "churn_monthly": 0.06,
+        "ltv": 317500.0,
+        "ltv_cac": 17.63888888888889,
+        "cac_payback_months": 0.9448818897637795,
+        "warnings": []
+      }
+    }
+  },
+  "sensitivity": [
+    {
+      "driver": "price",
+      "low": 10136014.259749366,
+      "high": 55286441.33285871
+    },
+    {
+      "driver": "volume",
+      "low": 12762280.89275665,
+      "high": 52705207.28911685
+    },
+    {
+      "driver": "fixed_costs",
+      "low": 48382635.62995745,
+      "high": 17102627.803540155
+    },
+    {
+      "driver": "variable_costs",
+      "low": 35409229.746616594,
+      "high": 30207796.44310511
+    }
+  ]
+}

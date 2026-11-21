@@ -1,0 +1,12 @@
+{
+    "name": "finance-soul",
+    "version": "0.1.0",
+    "description": "Душа финансиста для Claude Code: финмодели (три формы), юнит-экономика, cash/runway, сценарии, бизнес-план. Числа считает протестированное Python-ядро, Excel — с живыми формулами.",
+    "author": {
+        "name": "aibatjardem"
+    },
+    "homepage": "https://github.com/aibatjardem/finance-soul",
+    "repository": "https://github.com/aibatjardem/finance-soul",
+    "license": "MIT",
+    "keywords": ["finance", "financial-model", "business-plan", "unit-economics", "fpa", "kazakhstan", "russian"]
+}
