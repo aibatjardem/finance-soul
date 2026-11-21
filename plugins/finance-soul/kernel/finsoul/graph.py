@@ -5,7 +5,7 @@ formula (``to_excel``). That is the whole trick that keeps the report and the
 workbook in agreement: they are produced from the same description.
 """
 from dataclasses import dataclass, field
-from typing import Dict, List, Optional, Sequence, Set, Tuple, Union
+from typing import Any, Dict, List, Optional, Sequence, Set, Tuple, Union
 
 Number = Union[int, float]
 
@@ -323,6 +323,8 @@ class Ctx:
     lines: Dict[str, Line]
     periods: int
     layout: Optional[Layout] = None
+    labels: Dict[str, str] = field(default_factory=dict)  # input/series name -> human label
+    meta: Dict[str, Any] = field(default_factory=dict)
     _cache: Dict[Tuple[str, int], float] = field(default_factory=dict, repr=False)
     _stack: Set[Tuple[str, int]] = field(default_factory=set, repr=False)
     _path: List[str] = field(default_factory=list, repr=False)
