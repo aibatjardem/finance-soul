@@ -1,0 +1,41 @@
+{
+  "name": "EdTech-школа: онлайн-подписка",
+  "currency": "KZT",
+  "start": "2027-01",
+  "months": 36,
+  "opening_cash": 0,
+  "scenario": "base",
+  "scenarios": {
+    "base": {"price": 1.0, "volume": 1.0, "variable_costs": 1.0, "fixed_costs": 1.0},
+    "upside": {"price": 1.0, "volume": 1.2, "variable_costs": 1.0, "fixed_costs": 1.0},
+    "downside": {"price": 0.9, "volume": 0.8, "variable_costs": 1.15, "fixed_costs": 1.1}
+  },
+  "revenue_streams": [
+    {
+      "name": "подписка",
+      "unit": "ученик-месяц",
+      "price": 25000,
+      "variable_cost": 3000,
+      "ramp": [40, 70, 110, 150, 190, 230],
+      "growth_monthly": 0.05,
+      "capacity": 2000
+    }
+  ],
+  "fixed_costs": [
+    {"name": "ФОТ", "monthly": 4500000, "growth_annual": 0.1},
+    {"name": "аренда", "monthly": 600000},
+    {"name": "маркетинг", "monthly": 1500000},
+    {"name": "софт", "monthly": 300000}
+  ],
+  "capex": [
+    {"name": "ноутбуки", "month": 1, "amount": 6000000, "life_months": 36}
+  ],
+  "financing": {
+    "equity": [{"month": 1, "amount": 60000000}],
+    "loans": [{"name": "кредит банка", "month": 3, "amount": 30000000, "rate_annual": 0.22, "term_months": 24}]
+  },
+  "working_capital": {"dso_days": 5, "dpo_days": 20},
+  "tax": {"cit_rate": 0.2, "source": "НК РК 2026, КПН 20% — проверить ставку перед использованием"},
+  "unit_economics": {"cac": 18000, "churn_monthly": 0.06, "marketing_line": "маркетинг"},
+  "discount_rate_annual": 0.25
+}
