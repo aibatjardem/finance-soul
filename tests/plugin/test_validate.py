@@ -40,11 +40,17 @@ def test_frontmatter():
         fm = frontmatter(p)
         assert fm["name"] == p.stem, p
         assert set(fm) <= AGENT_FIELDS, (p, set(fm) - AGENT_FIELDS)
-        assert fm["description"].isascii() and len(fm["description"]) > 20, p
+        assert english_description(fm["description"]), p
     for p in skill_files():
         fm = frontmatter(p)
         assert fm["name"] == p.parent.name, p
-        assert fm["description"].isascii() and len(fm["description"]) > 20, p
+        assert english_description(fm["description"]), p
+
+
+def english_description(d: str) -> bool:
+    """English text; Russian trigger phrases are allowed only inside quotes."""
+    outside_quotes = re.sub(r'"[^"]*"', "", d)
+    return len(d) > 20 and outside_quotes.isascii()
 
 
 def test_core_budget():

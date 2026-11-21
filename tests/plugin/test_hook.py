@@ -56,3 +56,9 @@ def test_hook_huge_local_file_stays_in_budget(tmp_path):
     (tmp_path / ".finsoul" / "local" / "big.md").write_text("ж" * 50000, encoding="utf-8")
     ctx = run_hook(tmp_path)
     assert "big.md" in ctx
+
+
+def test_hook_reports_kernel_path(tmp_path):
+    ctx = run_hook(tmp_path)
+    kernel = HOOK.parent.parent / "kernel" / "run.py"
+    assert str(kernel.resolve()) in ctx

@@ -27,6 +27,8 @@ nl=$'\n'
 core="Finance Soul: файл души не найден в плагине."
 [ -r "$HOOK_DIR/soul-core.md" ] && core="$(<"$HOOK_DIR/soul-core.md")"
 ctx="$core"
+KERNEL_DIR="$(cd "$HOOK_DIR/../kernel" 2>/dev/null && pwd)"
+[ -n "$KERNEL_DIR" ] && ctx+="$nl${nl}Ядро на этой машине: python3 \"$KERNEL_DIR/run.py\" build <inputs.json> --out <папка>"
 
 project="${CLAUDE_PROJECT_DIR:-$PWD}"
 fs="$project/.finsoul"

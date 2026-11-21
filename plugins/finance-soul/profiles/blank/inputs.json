@@ -1,0 +1,15 @@
+{
+  "name": "Новая модель",
+  "currency": "KZT",
+  "start": "2027-01",
+  "months": 36,
+  "revenue_streams": [
+    {"name": "основной продукт", "unit": "продажа", "price": 10000, "variable_cost": 4000, "ramp": [50, 80, 120], "growth_monthly": 0.03}
+  ],
+  "fixed_costs": [
+    {"name": "ФОТ", "monthly": 1500000},
+    {"name": "аренда", "monthly": 300000}
+  ],
+  "financing": {"equity": [{"month": 1, "amount": 10000000}]},
+  "tax": {"cit_rate": 0.2, "source": "TBD — укажи статью НК РК и дату проверки"}
+}
