@@ -55,3 +55,14 @@ def english_description(d: str) -> bool:
 
 def test_core_budget():
     assert len((PLUGIN / "hooks" / "soul-core.md").read_text(encoding="utf-8")) < 6000
+
+
+def test_references_exist():
+    skills = {p.parent.name for p in skill_files()}
+    agents = {p.stem for p in agent_files()}
+    assert agents == {"model-builder", "model-auditor", "cfo-reviewer"}
+    known = skills | agents
+    files = [p for p in PLUGIN.rglob("*.md") if not p.name.startswith("._")]
+    for p in files:
+        for ref in re.findall(r"finance-soul:([a-z0-9-]+)", p.read_text(encoding="utf-8")):
+            assert ref in known, (p, ref)
