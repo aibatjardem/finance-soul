@@ -66,3 +66,10 @@ def test_references_exist():
     for p in files:
         for ref in re.findall(r"finance-soul:([a-z0-9-]+)", p.read_text(encoding="utf-8")):
             assert ref in known, (p, ref)
+
+
+def test_no_macos_appledouble_files_tracked():
+    """._* files from macOS on external drives show up as extra agents and skills."""
+    import subprocess
+    files = subprocess.run(["git", "ls-files"], cwd=str(ROOT), capture_output=True, text=True).stdout.split()
+    assert [f for f in files if Path(f).name.startswith("._")] == []
