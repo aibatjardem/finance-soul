@@ -1,0 +1,24 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python: ["3.9", "3.12"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - run: python -m pip install -r requirements-dev.txt
+      - run: python -m pytest -q
+      - name: Example is up to date
+        run: |
+          python plugins/finance-soul/kernel/run.py build examples/edtech/.finsoul/models/main/inputs.json --out examples/edtech/.finsoul/models/main/out --no-xlsx
+          git diff --exit-code -- examples/edtech/.finsoul/models/main/out/report.md examples/edtech/.finsoul/models/main/out/checks.json

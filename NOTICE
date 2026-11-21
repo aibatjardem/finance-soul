@@ -1,0 +1,36 @@
+Finance Soul
+Copyright (c) 2026 aibatjardem. Licensed under the MIT License (see LICENSE).
+
+Finance Soul re-implements in its own words and code methods described in the
+following open-source projects. No source text or code was copied verbatim
+unless stated below.
+
+- anthropics/financial-services — Apache License 2.0
+  https://github.com/anthropics/financial-services
+  Used: structure and integrity checks of three-statement models
+  (3-statement-model), spreadsheet audit checklist (audit-xls). Inspired
+  skills/three-statement-guide and agents/model-auditor.
+
+- JeffBrines/openfpa — MIT License, Copyright (c) Jeff Brines
+  https://github.com/JeffBrines/openfpa
+  Used: CFO judgment reflexes (fpa-cfo-judgment), cash runway method
+  (fpa-cash-runway), the idea of a tested finance kernel driven by an agent.
+  Inspired agents/cfo-reviewer and skills/cash-runway-guide.
+
+- Jakeschincariol/founder-skill — MIT License
+  https://github.com/Jakeschincariol/founder-skill
+  Used: the founder-cfo pattern (numbers file -> script -> report, every
+  number traceable to an input, what-ifs instead of guesses, ramp scepticism).
+  Inspired skills/unit-economics-guide and skills/assumptions.
+
+- aibatjardem/agentsoul — MIT License
+  https://github.com/aibatjardem/agentsoul
+  Used: three-layer architecture (soul / skills / subagents), the
+  SessionStart hook (adapted: hooks/session-start), hooks/run-hook.cmd.
+
+- obra/superpowers — MIT License, Copyright (c) Jesse Vincent
+  hooks/run-hook.cmd is adapted from obra/superpowers via agentsoul.
+
+Projects reviewed for ideas only, with nothing copied (non-commercial or AGPL
+licences): huaxialucaicaizi/ai-startup-skills, huaxialucaicaizi/business-plan-skill,
+hoaxnerd/burnless, danku13/CanvasDesk.
