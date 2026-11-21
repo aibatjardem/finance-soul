@@ -6,6 +6,8 @@
 
 Устроен так же, как [AgentSoul](https://github.com/aibatjardem/agentsoul): душа загружается хуком при старте сессии, skills подгружаются по требованию, субагенты — изолированные исполнители.
 
+> **Впервые? Пошаговая инструкция с нуля: [docs/QUICKSTART.md](docs/QUICKSTART.md)**
+
 ## Установка
 
 В Claude Code:
